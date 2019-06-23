@@ -2,27 +2,13 @@
 const Express = require('express');
 const app = Express();
 const mongoose = require('mongoose');
-
+const adminpanel = require('./routes/admin');
 mongoose.connect("mongodb://localhost/oqypqal")
     .then(() => console.log('Connected to db'))
     .catch((err) => console.log('Error', err));
 
-const Course = mongoose.model('Course', bookSchema);
+const Book = mongoose.model('Book', bookSchema);
 
-async function getListOfCourses() {
-    return Course.find();
-}
-app.get("/admin", (req, res) => {
+app.use('/admin', adminpanel);
 
-
-});
-
-
-const bookSchema = new mongoose.Schema({
-    name: String,
-    author: String,
-    price: Number,
-    releaseDate: Date,
-    genre: String
-});
-
+app.listen(3000);
