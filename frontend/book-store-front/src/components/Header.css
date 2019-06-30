@@ -1,0 +1,31 @@
+.signButton {
+    padding: 13px;
+    text-decoration: none;
+    color: black;
+    background-color:  #ddd;
+}
+
+.signButtonContainer{
+    width: 250px;
+    max-width: 250px;
+    float: right;
+}
+
+.header{
+    background-color: #333;
+    overflow: hidden;
+}
+
+a{
+    padding: 13px;
+    background-color: #4CAF50;
+    color:white;
+    float: left;
+    text-decoration: none;   
+    
+}
+
+.header{
+    width: 1400px;
+    display: inline-block;
+}

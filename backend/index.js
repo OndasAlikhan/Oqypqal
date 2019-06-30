@@ -2,13 +2,14 @@
 const Express = require('express');
 const app = Express();
 const mongoose = require('mongoose');
-const adminpanel = require('./routes/admin');
-mongoose.connect("mongodb://localhost/oqypqal")
-    .then(() => console.log('Connected to db'))
-    .catch((err) => console.log('Error', err));
+const adminpanel = require('./routes/admin-panel');
 
-const Book = mongoose.model('Book', bookSchema);
+app.use(Express.json());
+app.use('/admin-panel', adminpanel);
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+const port = process.env.port || 3001;
+app.listen(port, () => console.log('Listenging on port', port));
 
-app.use('/admin', adminpanel);
-
-app.listen(3000);
