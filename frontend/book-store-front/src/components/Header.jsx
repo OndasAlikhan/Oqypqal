@@ -6,6 +6,9 @@ class Header extends Component {
         searchInput: ''
     }
 
+    NEWFUNC = () => {
+        console.log('asdasdadads');
+    }
     //setting the seacrh input's value to "state" and calling "onSearchInput" and passing there search input 
     getSearchInput = (event) => {
         this.setState({ searchInput: event.target.value });
