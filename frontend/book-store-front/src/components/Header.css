@@ -3,12 +3,14 @@
     text-decoration: none;
     color: black;
     background-color:  #ddd;
+    border: 1px solid #333
 }
 
 .signButtonContainer{
     width: 250px;
     max-width: 250px;
     float: right;
+    position: relative;
 }
 
 .header{
@@ -28,4 +30,17 @@ a{
 .header{
     width: 1400px;
     display: inline-block;
+}
+
+.bookImage{
+    height: 60px;
+    
+}
+
+.search{
+    position: relative;
+    float: left;
+    height: 22px;
+    margin-left: 50%;
+    margin-top: 10px;
 }
