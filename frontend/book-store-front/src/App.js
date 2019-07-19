@@ -12,15 +12,15 @@ class App extends Component {
     list: 0,
     searchInput: ''
   }
-  //handling seatch input value sent from Header and passing it to ClientPage
+  //handling search input value sent from Header and passing it to ClientPage
   handleSearchInput = (data) => {
     this.setState({ searchInput: data });
   }
+
   render() {
     return (
       <div className="App" >
         <Header onSearchInput={this.handleSearchInput} />
-
         <Route exact path='/admin-panel' component={BookList} />
         <Route exact path='/' component={ClientPage} />
       </div>

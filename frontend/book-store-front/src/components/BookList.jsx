@@ -3,6 +3,14 @@ import './BookList.css';
 import axios from 'axios';
 import Book from './Book.jsx';
 class BookList extends Component {
+    constructor(props) {
+        super(props);
+        this.nameinp = React.createRef();
+        this.authinp = React.createRef();
+        this.genrinp = React.createRef();
+        this.pricinp = React.createRef();
+    }
+
     state = {
         listOfBooks: [],
         name: '',
@@ -10,6 +18,7 @@ class BookList extends Component {
         genre: '',
         price: 0,
         nameToDelete: ''
+
     }
 
     componentDidMount() {
@@ -17,7 +26,8 @@ class BookList extends Component {
     }
 
     // here we request a json of list of books from server
-    getListOfBooks() {
+    getListOfBooks = () => {
+        console.log('get list of books is called')
         axios.get('http://localhost:3001/admin-panel')
             .then(res => {
                 console.log(res, "res");
@@ -44,7 +54,13 @@ class BookList extends Component {
     }
 
 
+
     handleBookDeleteButton = (id) => {
+        //check for users confitmation
+        if (!window.confirm('Confirm deletion')) {
+            return;
+        }
+
         //first delete that component from state
         //second delete it from db
 
@@ -71,7 +87,29 @@ class BookList extends Component {
             .catch(err => console.log('Error occured', err));
 
     }
+
     createBookRequest = () => {
+        //
+        if (this.nameinp.current.value === '' ||
+            this.authinp.current.value === '' ||
+            this.genrinp.current.value === '' ||
+            this.pricinp.current.value === '') {
+
+            return false;
+        }
+
+        if ((this.nameinp.current.value.length > 35 || this.nameinp.current.value.length < 1) ||
+            (this.authinp.current.value.length > 35 || this.authinp.current.value.length < 1) ||
+            (this.genrinp.current.value.length > 35 || this.genrinp.current.value.length < 1) ||
+            (this.pricinp.current.value.length > 6 || this.pricinp.current.value.length < 1)) {
+            return;
+        }
+
+        this.nameinp.current.value = '';
+        this.authinp.current.value = '';
+        this.genrinp.current.value = '';
+        this.pricinp.current.value = '';
+
         let reqData = {
             name: this.state.name,
             author: this.state.author,
@@ -104,28 +142,24 @@ class BookList extends Component {
     }
 
 
-    //figure out design for booklist for admin pannel and add buttons to delete and create books 
 
     render() {
         return (
             <div className="booklist">
-                <div className="createlistcontainer">
-
-                    <ul className="newBook">
-                        <span className='words'>Create a new book</span>
-                        <li className='words'> Name   <input id="nameinp" onChange={this.handleNameInput} type='text'></input></li>
-
-                        <li className='words'> Author <input id="authinp" onChange={this.handleAuthInput} type='text'></input></li>
-
-                        <li className='words'> Genre  <input id="genrinp" onChange={this.handleGenrInput} type='text'></input></li>
-
-                        <li className='words'> Price  <input id="pricinp" onChange={this.handlePricInput} type='text'></input></li>
+                <div className="form">
+                    <p className='label'>Create a new book</p>
+                    <ul className='inputBox'>
+                        <li><span>name  </span> <input ref={this.nameinp} id="nameinp" onChange={this.handleNameInput} type='text' /></  li>
+                        <li><span>author</span> <input ref={this.authinp} id="authinp" onChange={this.handleAuthInput} type='text' /></  li>
+                        <li><span>genre </span> <input ref={this.genrinp} id="genrinp" onChange={this.handleGenrInput} type='text' /></  li>
+                        <li><span>price </span> <input ref={this.pricinp} id="pricinp" onChange={this.handlePricInput} type='text' /></  li>
+                        <input className='btn' name='' value='submit' onClick={this.createBookRequest} type='submit' />
                     </ul>
-                    <button id="createBookBtn" onClick={this.createBookRequest} href="s">Submit</button>
                 </div>
 
 
                 <div className="listcontainer">
+                    <span className='listLabel'>Books</span>
                     {this.state.listOfBooks.map(c => {
                         return (
                             <Book
@@ -135,7 +169,9 @@ class BookList extends Component {
                                 author={c.author}
                                 genre={c.genre}
                                 price={c.price}
+                                on
                                 onDelete={this.handleBookDeleteButton}
+                                onEdit={this.getListOfBooks}
                             />
                         );
                     })}

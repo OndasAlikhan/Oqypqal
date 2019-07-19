@@ -2,24 +2,19 @@ const express = require('express');
 const router = express.Router();
 const dbDebug = require('debug')('app:db');
 const mongoose = require('mongoose');
+const bookModel = require('../models/bookModel');
+
 mongoose.connect("mongodb://localhost/oqypqal")
     .then(() => console.log('Connected to db'))
     .catch((err) => console.log('Error', err));
 
 
-const bookSchema = new mongoose.Schema({
-    name: String,
-    author: String,
-    price: Number,
-    releaseDate: Date,
-    genre: String
-});
-const Book = mongoose.model('Book', bookSchema);
 
+const Book = mongoose.models.Book;
 // get list from db in json format
 async function getListOfBooks() {
     let find = await Book.find();
-    console.log(find);
+
     return (find);
 }
 
@@ -43,6 +38,20 @@ async function deleteBook(data) {
     return result;
 }
 
+async function editBook(data) {
+    let result = await Book.find({ _id: data.id });
+    console.log(result);
+    result = result[0];
+    result.name = data.name;
+    result.author = data.author;
+    result.price = data.price;
+    result.releaseDate = data.releaseDate;
+    result.genre = data.genre;
+    console.log(result);
+
+    await result.save();
+    console.log('saved')
+}
 
 //Sending an array of books exctracted from db
 router.get("/", (req, res) => {
@@ -54,20 +63,42 @@ router.get("/", (req, res) => {
 // here req should contain JSON object that contains correct data to create book
 // Should add here data validation with Joi
 router.post("/create-book", (req, res) => {
-    createBook(req.body)
-        .then((result) => {
-            console.log(result);
-            res.json(result);
-        })
+    //checking req data for entegrity 
+    let validationResult = bookModel.validateBook(req.body);
+    if (validationResult.error) {
+        res.status(400);
+        return;
+    }
+
+    createBook(validationResult.value).then((result) => {
+        res.json(result);
+    })
 });
 
 router.post('/delete-book', (req, res) => {
-    deleteBook(req.body).then((result) => {
+    // let validationResult = bookModel.validateDeleteBookRequest(req.body);
+    // if (validationResult.error) {
+    if (req.body) {
+        res.status(400);
+        return;
+    }
+
+    deleteBook(validationResult.value).then((result) => {
         res.json(result);
     });
 });
 
-
+router.post('/edit-book', (req, res) => {
+    let validationResult = bookModel.validateBook(req.body);
+    if (validationResult.error) {   //if there is error immediately send 400 status and terminate method
+        res.status(400);
+        return;
+    }
+    // console.log(req, ' req.data');
+    editBook(validationResult.value).then((result) => {
+        res.json(result);
+    });
+});
 
 module.exports = router;
 

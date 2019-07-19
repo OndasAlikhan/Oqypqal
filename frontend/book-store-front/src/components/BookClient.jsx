@@ -4,7 +4,7 @@ import axios from 'axios';
 class BookClient extends Component {
     render() {
         return (
-            <div className="bookElement">
+            <div className="bookElementClient">
                 <img className='bookImage' src={require("./images.png")} />
                 <div className='text'>
                     <span >{this.props.name}</span><br />
