@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import BookList from './components/BookList';
 import ClientPage from './components/ClientPage';
+import SignUpPage from './components/SignUpPage';
 import './App.css';
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
         <Header onSearchInput={this.handleSearchInput} />
         <Route exact path='/admin-panel' component={BookList} />
         <Route exact path='/' component={ClientPage} />
+        <Route path='/register' component={SignUpPage} />
       </div>
     );
   }

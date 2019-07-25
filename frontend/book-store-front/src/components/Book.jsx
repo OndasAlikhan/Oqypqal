@@ -60,6 +60,7 @@ class Book extends Component {
         }
 
         console.log(reqData, 'data of edit request');
+        console.log(typeof (this.props.id), 'id of send edit req');
         axios.post('http://localhost:3001/admin-panel/edit-book', reqData)
             .then((result) => {
                 console.log(result, 'response came from edit request');

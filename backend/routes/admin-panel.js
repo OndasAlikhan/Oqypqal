@@ -4,22 +4,24 @@ const dbDebug = require('debug')('app:db');
 const mongoose = require('mongoose');
 const bookModel = require('../models/bookModel');
 
-mongoose.connect("mongodb://localhost/oqypqal")
-    .then(() => console.log('Connected to db'))
-    .catch((err) => console.log('Error', err));
+// All the http request handlers in this file 
+// are /admin-panel/* childs
 
-
-
+// MongoDB book entity(or model) created in bookModel.js
 const Book = mongoose.models.Book;
-// get list from db in json format
+
+// access MongoDB and retrieve a list of ALL books
 async function getListOfBooks() {
     let find = await Book.find();
 
     return (find);
 }
 
+//function to perform creation of new book and addition of it to MongoDB 
 async function createBook(data) {
     console.log(data, 'data that has to be saved');
+
+    //new instance of Book model
     let book = new Book({
         name: data.name,
         author: data.author,
@@ -33,27 +35,33 @@ async function createBook(data) {
     return res;
 }
 
+// function to perform deletion of book by ID
 async function deleteBook(data) {
     let result = await Book.deleteOne({ _id: data.idToDelete });
     return result;
 }
 
+// function to perform changes to existing Book
+// ID is provided to find the book
+// all other fields of request are new data that has to be put into place of old
 async function editBook(data) {
-    let result = await Book.find({ _id: data.id });
-    console.log(result);
+    let result = await Book.find({ _id: data.id }); //retrieving book by id
+
+    //changing its fields to new ones
     result = result[0];
     result.name = data.name;
     result.author = data.author;
     result.price = data.price;
     result.releaseDate = data.releaseDate;
     result.genre = data.genre;
-    console.log(result);
 
-    await result.save();
-    console.log('saved')
+    let result = await result.save();
+    console.log('saved');
+    return result;
 }
 
-//Sending an array of books exctracted from db
+//  handling http get request
+// sending an array of books exctracted from db
 router.get("/", (req, res) => {
     getListOfBooks()
         .then((result) => res.json({ arrayOfBooks: result }));
@@ -64,8 +72,9 @@ router.get("/", (req, res) => {
 // Should add here data validation with Joi
 router.post("/create-book", (req, res) => {
     //checking req data for entegrity 
-    let validationResult = bookModel.validateBook(req.body);
+    let validationResult = bookModel.validateCreateBookRequest(req.body);
     if (validationResult.error) {
+        console.log(validationResult.error);
         res.status(400);
         return;
     }
@@ -76,9 +85,9 @@ router.post("/create-book", (req, res) => {
 });
 
 router.post('/delete-book', (req, res) => {
-    // let validationResult = bookModel.validateDeleteBookRequest(req.body);
-    // if (validationResult.error) {
-    if (req.body) {
+    let validationResult = bookModel.validateDeleteBookRequest(req.body);
+    if (validationResult.error) {
+        console.log(validationResult.error);
         res.status(400);
         return;
     }
@@ -89,8 +98,9 @@ router.post('/delete-book', (req, res) => {
 });
 
 router.post('/edit-book', (req, res) => {
-    let validationResult = bookModel.validateBook(req.body);
+    let validationResult = bookModel.validateEditBookRequest(req.body);
     if (validationResult.error) {   //if there is error immediately send 400 status and terminate method
+        console.log(validationResult.error);
         res.status(400);
         return;
     }

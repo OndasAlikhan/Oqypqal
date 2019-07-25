@@ -17,8 +17,7 @@ class BookList extends Component {
         author: '',
         genre: '',
         price: 0,
-        nameToDelete: ''
-
+        id: ''
     }
 
     componentDidMount() {
@@ -36,6 +35,8 @@ class BookList extends Component {
             .catch(err => console.log("error", err));
 
     }
+
+
 
     handleNameInput = (event) => {
         this.setState({ name: event.target.value });
@@ -132,7 +133,7 @@ class BookList extends Component {
     // don't need this fakin thing
     deleteBookRequest = () => {
         let reqData = {
-            nameToDelete: this.state.nameToDelete
+            id: this.state.id
         }
         axios.delete('http://localhost:3001/admin-panel/delete-book', reqData)
             .then()(res => {
@@ -169,7 +170,7 @@ class BookList extends Component {
                                 author={c.author}
                                 genre={c.genre}
                                 price={c.price}
-                                on
+
                                 onDelete={this.handleBookDeleteButton}
                                 onEdit={this.getListOfBooks}
                             />

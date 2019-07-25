@@ -3,14 +3,21 @@
     text-decoration: none;
     color: black;
     background-color:  #ddd;
-    border: 1px solid #333
+    border: 1px solid #333;
+    margin: 10px;
+    float: right;
+
 }
 
 .signButtonContainer{
-    width: 250px;
-    max-width: 250px;
+    width: 500px;
     float: right;
     position: relative;
+}
+
+.loginContainer{
+    width: 200px;
+    margin-top:10px;
 }
 
 .header{
@@ -38,9 +45,14 @@ a{
 }
 
 .search{
-    position: relative;
-    float: left;
+    
+    
     height: 22px;
-    margin-left: 50%;
+    margin-left: 20%;
     margin-top: 10px;
+}
+
+.logininp{
+    float: left;
+    margin-left:6px;
 }

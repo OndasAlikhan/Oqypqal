@@ -1,0 +1,12 @@
+.signUpContainer{
+    display: inline-block;
+    background: #333 ;
+    color: white;
+    width: 300px;
+}
+
+.submitButtonSignUp{
+    margin-left:38%;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
