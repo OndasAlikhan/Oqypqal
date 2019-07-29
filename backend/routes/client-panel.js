@@ -46,6 +46,7 @@ router.post('/login', async (req, res) => {
         return;
     }
 
+    console.log('passed login validation');
     //checking if req.body.login exists in db
     let customer = await Customer.findOne({ login: req.body.login });
     if (!customer) {
@@ -53,14 +54,22 @@ router.post('/login', async (req, res) => {
         return;
     }
 
+    console.log('found customer in db')
     //checking password
     let validPassword = await bcrypt.compare(req.body.password, customer.password);
     if (!validPassword) res.status(400).send('Invalid email or password');
 
+    console.log('passed password validations');
     //setting token to header
     const token = customer.generateAuthToken();
-    console.log(token);
+
     res.header("x-auth-token", token);
+    console.log('TOKEN CREATED', token);
+    res.send({
+        email: customer.email,
+        phone: customer.phone,
+        login: customer.login
+    });
 });
 
 module.exports = router;

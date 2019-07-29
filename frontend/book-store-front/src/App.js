@@ -19,8 +19,9 @@ class App extends Component {
     this.setState({ searchInput: data });
   }
 
-  handleLogin = (data) => {
+  handleLogin = () => {
     this.setState({ isAuth: true });
+    console.log('is AUTH is true in App.js');
   }
 
   logCookies() {

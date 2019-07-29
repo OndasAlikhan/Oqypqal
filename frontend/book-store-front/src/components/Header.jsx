@@ -14,7 +14,8 @@ class Header extends Component {
 
     state = {
         searchInput: '',
-        isAuth: false
+        isAuth: false,
+        currentUserInfo: {}
     }
 
     renderLoginContainer = () => {
@@ -41,10 +42,10 @@ class Header extends Component {
         else if (this.state.isAuth === true)
             return (
                 <div className="loggedInfoContainer">
-                    <span className="loggedUserInfo">Name</span>
-                    <span className="loggedUserInfo">email</span>
-                    <span>phone</span>
-                    <a href='#'>Logout</a>
+                    <span className="loggedUserInfo">{this.state.currentUserInfo.login}</span><br />
+                    <span className="loggedUserInfo">{this.state.currentUserInfo.email}</span><br />
+                    <span className="loggedUserInfo">{this.state.currentUserInfo.phone}</span><br />
+                    <a href='#' onClick={this.handleLogout}>Logout</a>
                 </div>
             );
 
@@ -58,22 +59,25 @@ class Header extends Component {
 
     // handle user login by sending get request to server for checking 
     handleSignIn = () => {
+
+        //request data that contains user info and password 
         let reqData = {
             login: this.logininp.current.value,
             password: this.passwordinp.current.value
         }
 
         console.log(reqData);
-        axios.post('http://localhost:3001/login', reqData)
+        axios.post('http://localhost:3001/login', reqData)  //sending request
             .then(res => {
 
                 console.log(res, 'response from login');
-                //saving the response in state
-                this.setState({ serverResponse: res });
 
+                //since the req for login was successful
+                //we save login and password in state
+                this.setState({ currentUserInfo: res.data });
                 //passing response to onLogin prop
+                this.props.onLogin();
                 //setting state isAuth to TRUE
-                this.props.onLogin(res);
                 this.setState({ isAuth: true });
 
                 //also setting cookies 
@@ -84,6 +88,12 @@ class Header extends Component {
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    handleLogout = () => {
+        this.setState({ isAuth: false });
+        let cookies = new Cookies();
+        cookies.remove('jwt');
     }
 
     render() {
