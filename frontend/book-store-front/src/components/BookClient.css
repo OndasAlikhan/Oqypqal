@@ -3,27 +3,37 @@
     margin-top: 30px;
     position: relative;
     float: left;
-    width: 180px;
+    width: 250px;
     padding: 15px;
+    overflow: hidden;
 }
 
-.bookElementClient .text{
+.text{
     position: absolute;
-    
-    margin: 0 ;
-    left: 0;
-    right: 0;
-    top: 55%;
-    background: rgba(135, 135, 135, 0.551);
+    width: 100px;
+    right: 5%;
+    float:right;
+    top:5%;
 }
 
 .bookElementClient:hover{
     opacity: 0.7;
 }
 
-.bookElementClient .bookImage{
+.bookImage{
     display: block;
     align-content: center;
-    width: 150px;
-    height: 155px;
+    width: 100px;
+    height: 125px;
+}
+
+.bookClientButton{
+
+    position: absolute;
+    cursor: pointer;
+    float: left;
+    margin: 0px;
+    padding: 3px;
+    right: 5%;
+    bottom: 5%;
 }

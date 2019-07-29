@@ -5,20 +5,18 @@ const customerModel = require('../models/customerModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../middleware/auth');
 
 // Getting Book model from bookModel.js
 const Book = mongoose.models.Book;
 const Customer = mongoose.models.Customer;
-
+const Order = mongoose.models.Order;
 //function to perform when get request is received
 async function getListOfBooks() {
     let find = await Book.find();
     console.log(find);
     return (find);
 }
-
-
-
 
 // handle http get request, to retrieve all books from MongoDB and send to client
 router.get('/', (req, res) => {
@@ -28,6 +26,14 @@ router.get('/', (req, res) => {
             res.json({ arrayOfBooks: result });
         })
 });
+
+router.get('/cart', auth, async (req, res) => {
+    let order = await Order.findOne({ customer: req.query.customerId });
+    if (!order) return res.status(400).send('Bad request');
+    res.send(_.pick(order, ['book', status]));
+});
+
+
 
 //handle user's request to log in
 router.post('/login', async (req, res) => {
@@ -51,7 +57,10 @@ router.post('/login', async (req, res) => {
     let validPassword = await bcrypt.compare(req.body.password, customer.password);
     if (!validPassword) res.status(400).send('Invalid email or password');
 
+    //setting token to header
     const token = customer.generateAuthToken();
-    res.send(token);
+    console.log(token);
+    res.header("x-auth-token", token);
 });
+
 module.exports = router;

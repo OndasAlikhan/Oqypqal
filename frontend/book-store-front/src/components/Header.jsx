@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import { Cookies } from 'react-cookie';
+
 class Header extends Component {
 
     constructor(props) {
@@ -11,7 +13,34 @@ class Header extends Component {
     }
 
     state = {
-        searchInput: ''
+        searchInput: '',
+        isAuth: false
+    }
+
+    renderLoginContainer = () => {
+        if (this.state.isAuth === false)
+            return (
+                <div className="signButtonContainer">
+                    <div className="loginContainer">
+                        <input className="logininp" ref={this.logininp} ></input>
+                        <input className="logininp" ref={this.passwordinp} ></input>
+                    </div>
+                    <Link className='signButton' to='/register'>SIGN UP</Link>
+
+                    <button className="signButton" onClick={this.handleSignIn} >SIGN IN</button>
+                    {/* <a className="signButton" onClick={this.handleSignUp} href="#signup" ><Link to='/register'>SIGN UP</Link></a> */}
+                </div>
+            );
+        else if (this.state.isAuth === true)
+            return (
+                <div className="loggedInfoContainer">
+                    <span className="loggedUserInfo">Name</span>
+                    <span className="loggedUserInfo">email</span>
+                    <span>phone</span>
+                    <a href='#'>Logout</a>
+                </div>
+            );
+
     }
 
     //setting the seacrh input's value to "state" and calling "onSearchInput" and passing there search input 
@@ -32,12 +61,22 @@ class Header extends Component {
             .then(res => {
 
                 console.log(res, 'response from login');
+                //saving the response in state
+                this.setState({ serverResponse: res });
 
+                //passing response to onLogin prop
+                //setting state isAuth to TRUE
+                this.props.onLogin(res);
+                this.setState({ isAuth: true });
+
+                //also setting cookies 
+                let cookies = new Cookies();
+                cookies.set('jwt', res.headers['x-auth-token']);
+                console.log(cookies.getAll());
             })
             .catch(err => {
                 console.log(err);
             });
-
     }
 
     render() {
@@ -48,18 +87,8 @@ class Header extends Component {
                 <a href="#authors">AUTHORS</a>
                 <p>Search</p>
                 <input onChange={this.getSearchInput} className='search' type='text'></input>
-                <div className="signButtonContainer">
-                    <div className="loginContainer">
-                        <input className="logininp" ref={this.logininp} ></input>
-                        <input className="logininp" ref={this.passwordinp} ></input>
-                    </div>
-                    <Link className='signButton' to='/register'>SIGN UP</Link>
-
-                    <button className="signButton" onClick={this.handleSignIn} >SIGN IN</button>
-                    {/* <a className="signButton" onClick={this.handleSignUp} href="#signup" ><Link to='/register'>SIGN UP</Link></a> */}
-                </div>
+                {this.renderLoginContainer()}
             </div>
-
         );
     }
 }

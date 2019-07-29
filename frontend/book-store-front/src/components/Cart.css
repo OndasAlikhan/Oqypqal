@@ -1,0 +1,20 @@
+.cartContainer{
+    float:right;
+    margin: 30px 60px;
+    width: 300px;
+}
+
+.cartElement{
+    padding: 5px;
+    text-align: left;
+    border: #333 solid 2px;
+    margin:1px;
+}
+
+.cartElement a{
+    cursor: pointer;
+    font-size: 15px;
+    padding: 5px;
+    background-color: #333;
+    float:right;
+}

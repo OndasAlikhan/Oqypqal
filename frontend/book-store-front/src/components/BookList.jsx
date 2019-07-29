@@ -62,10 +62,10 @@ class BookList extends Component {
             return;
         }
 
-        //first delete that component from state
-        //second delete it from db
+        //1. delete that component from state
+        //2. delete it from db
 
-        //slice that element out by id from array of books in state
+        // slice that element out by id (we deleted it fron state)
         for (let i = 0; i < this.state.listOfBooks.length; i++) {
             if (this.state.listOfBooks[i]._id === id) {
                 this.state.listOfBooks.slice(i, 1);

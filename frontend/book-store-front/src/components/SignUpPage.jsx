@@ -44,7 +44,7 @@ class SignUpPage extends Component {
                 <p>Confirm Password</p>
                 <input ref={this.passwordConfirm}></input>
 
-                <a className='submitButtonSignUp' href='#' onClick={this.handleSubmit}>Submit</a>
+                <a className='submitButtonSignUp' onClick={this.handleSubmit}>Submit</a>
             </div>
         );
     }

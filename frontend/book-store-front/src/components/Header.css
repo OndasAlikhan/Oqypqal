@@ -19,7 +19,12 @@
     width: 200px;
     margin-top:10px;
 }
-
+.loggedInfoContainer{
+    float: right;
+}
+.loggedUserInfo{
+    color:white;
+}
 .header{
     background-color: #333;
     overflow: hidden;

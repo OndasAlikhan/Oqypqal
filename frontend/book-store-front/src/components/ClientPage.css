@@ -1,5 +1,6 @@
 .clientPageContainer{
-    
-    display: inline-block;
-    width: 1400px;
+    position: relative;
+    margin-left: 60px;
+    float: left;
+    width: 1000px;
 }

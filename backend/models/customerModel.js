@@ -36,12 +36,13 @@ const customerSchema = new mongoose.Schema({
         min: 6,
         max: 255,
         required: true
-    }
+    },
+    isAdmin: Boolean
 });
 
 //this method should be used all across the application to genereate tokens
 customerSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
     return token;
 }
 const Customer = mongoose.model('Customer', customerSchema);

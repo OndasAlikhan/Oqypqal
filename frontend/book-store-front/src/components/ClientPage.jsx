@@ -3,10 +3,13 @@ import { Component } from 'react';
 import axios from 'axios';
 import BookClient from './BookClient';
 import './ClientPage.css';
+import Cart from './Cart';
+
 class ClientPage extends Component {
 
     state = {
-        listOfBooks: []
+        listOfBooks: [],
+        cartBooks: []
     };
 
     componentDidMount() {
@@ -23,26 +26,49 @@ class ClientPage extends Component {
             .catch((err) => console.log('Error occured', err));
     }
 
+    handleAddToCart = (data) => {
+        let temp = this.state.cartBooks;
+        temp.push(data);
+        this.setState({ cartBooks: temp });
+    }
+
+    handleDelete = (id) => {
+        console.log('CART', this.state.cartBooks);
+        let cartUpdated = [...this.state.cartBooks];
+        for (let i = 0; i < cartUpdated.length; i++) {
+            if (cartUpdated[i].id === id) {
+                cartUpdated.splice(i, 1);
+            }
+        }
+        this.setState({ cartBooks: cartUpdated });
+        console.log('CARTTT', this.state.cartBooks);
+
+    }
 
     render() {
         return (
-            <div className='clientPageContainer'>
-
-                {this.state.listOfBooks.map(i => {
-                    return (
-                        <BookClient
-                            key={i._id}
-                            id={i._id}
-                            name={i.name}
-                            author={i.author}
-                            genre={i.genre}
-                            price={i.price}
-                        />
-                    )
-                })
-                }
-
-            </div>
+            <div >
+                <div className='clientPageContainer'>
+                    {this.state.listOfBooks.map(i => {
+                        return (
+                            <BookClient
+                                key={i._id}
+                                id={i._id}
+                                name={i.name}
+                                author={i.author}
+                                genre={i.genre}
+                                price={i.price}
+                                onAddToCart={this.handleAddToCart}
+                            />
+                        )
+                    })
+                    }
+                </div>
+                <Cart
+                    listOfBooks={this.state.cartBooks}
+                    onDelete={this.handleDelete}
+                />
+            </div >
         );
     }
 }
