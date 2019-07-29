@@ -25,12 +25,19 @@ class Header extends Component {
                         <input className="logininp" ref={this.logininp} ></input>
                         <input className="logininp" ref={this.passwordinp} ></input>
                     </div>
-                    <Link className='signButton' to='/register'>SIGN UP</Link>
 
-                    <button className="signButton" onClick={this.handleSignIn} >SIGN IN</button>
+                    <div className="signButton">
+                        <a onClick={this.handleSignIn} >SIGN IN</a>
+                    </div>
+                    <div className='signButton'>
+                        <Link id='linkToSignUp' to='/register'>SIGN UP</Link>
+                    </div>
+
                     {/* <a className="signButton" onClick={this.handleSignUp} href="#signup" ><Link to='/register'>SIGN UP</Link></a> */}
                 </div>
             );
+
+
         else if (this.state.isAuth === true)
             return (
                 <div className="loggedInfoContainer">
@@ -82,11 +89,19 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <a href="#home" id="home">HOME</a>
-                <a href="#genres">GENRES</a>
-                <a href="#authors">AUTHORS</a>
-                <p>Search</p>
-                <input onChange={this.getSearchInput} className='search' type='text'></input>
+                <div className='links'>
+                    <a href="#home" id="home">Oqypqal</a>
+                    <a href="#genres">Genres</a>
+                    <a href="#authors">Authors</a>
+                    <a href="#myorder">My Order</a>
+                </div>
+                <div className='searchContainer'>
+                    <p>Search</p>
+                    <div className='search' >
+
+                        <input onChange={this.getSearchInput} type='text'></input>
+                    </div>
+                </div>
                 {this.renderLoginContainer()}
             </div>
         );

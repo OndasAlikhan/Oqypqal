@@ -1,63 +1,66 @@
-.signButton {
-    padding: 13px;
-    text-decoration: none;
-    color: black;
-    background-color:  #ddd;
-    border: 1px solid #333;
-    margin: 10px;
-    float: right;
+.header{
+    display: grid;
+    grid-template-columns: 1fr 1fr 20%;
+    grid-template-rows: 2fr;
+    background-color: #333;  
 
+    padding: 5px;
+}
+
+.signButton {
+    color: white ;
+    cursor: pointer;
+    padding: 3%;
+}
+.signButton a{
+    background-color: #4CAF50;
+    padding: 3%;
+}
+
+.links a{
+    background-color: #4CAF50;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+#linkToSignUp{
+    color: white;
+    text-decoration: none;
 }
 
 .signButtonContainer{
-    width: 500px;
-    float: right;
-    position: relative;
+    display: grid;
+    grid-gap: 1px;
+    grid-template-rows: 4vw 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    "login login"
+    "signin signup"
 }
 
 .loginContainer{
-    width: 200px;
-    margin-top:10px;
+    grid-area: login;
 }
 .loggedInfoContainer{
-    float: right;
 }
 .loggedUserInfo{
+}
+
+
+.searchContainer{
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "y sign search"
+}
+.searchContainer p{
+    font-size: 1vw;
     color:white;
+    grid-area: sign;
 }
-.header{
-    background-color: #333;
-    overflow: hidden;
-}
-
-a{
-    padding: 13px;
-    background-color: #4CAF50;
-    color:white;
-    float: left;
-    text-decoration: none;   
-    
-}
-
-.header{
-    width: 1400px;
-    display: inline-block;
-}
-
-.bookImage{
-    height: 60px;
-    
-}
-
 .search{
-    
-    
-    height: 22px;
-    margin-left: 20%;
-    margin-top: 10px;
+    grid-area: search;
+    height:1vw;
 }
 
-.logininp{
-    float: left;
-    margin-left:6px;
-}
