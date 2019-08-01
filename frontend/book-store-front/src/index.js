@@ -3,13 +3,27 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-
 import * as serviceWorker from './serviceWorker';
 import { CookiesProvider } from 'react-cookie';
+import { Cookies } from 'react-cookie';
+let cookie = new Cookies();
+
+let jwtCookie = cookie.get('jwt');
+
+
+function renderAuth() {
+    console.log(jwtCookie, 'cookies')
+    if (jwtCookie)
+        return <App isAuth={true} />
+    else
+        return <App isAuth={false} />
+
+}
 
 ReactDOM.render((
     <BrowserRouter>
-        <App />
+
+        {renderAuth()}
 
     </BrowserRouter>
 ), document.getElementById('root'));

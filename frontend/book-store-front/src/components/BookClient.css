@@ -28,12 +28,14 @@
 }
 
 .bookClientButton{
-
+    background-color: #4CAF50;
+    color: white;
+    
     position: absolute;
     cursor: pointer;
     float: left;
     margin: 0px;
-    padding: 3px;
+    padding: 2%;
     right: 5%;
     bottom: 5%;
 }

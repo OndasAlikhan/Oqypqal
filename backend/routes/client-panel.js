@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const customerModel = require('../models/customerModel');
+const orderModel = require('../models/orderModel');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const auth = require('../middleware/auth');
-
+const _ = require('lodash');
 // Getting Book model from bookModel.js
 const Book = mongoose.models.Book;
 const Customer = mongoose.models.Customer;
 const Order = mongoose.models.Order;
+
 //function to perform when get request is received
 async function getListOfBooks() {
     let find = await Book.find();
@@ -19,18 +19,54 @@ async function getListOfBooks() {
 }
 
 // handle http get request, to retrieve all books from MongoDB and send to client
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     getListOfBooks()
         .then(result => {
             console.log('Sending data to client');
             res.json({ arrayOfBooks: result });
         })
+        .catch(ex => next(ex)); //passing exception to next
 });
 
-router.get('/cart', auth, async (req, res) => {
-    let order = await Order.findOne({ customer: req.query.customerId });
+// creates new order
+router.post('/cart', auth, async (req, res, next) => {
+    console.log(req.user._id);
+    console.log(req.body.books);
+    const order = new Order({
+        customer: req.user._id,
+        books: req.body.books,
+        status: req.body.status
+
+    })
+    let result = await order.save();
+    res.send(result);
+    console.log('New cart request');
+});
+
+router.get('/me', auth, async (req, res, next) => {
+    let cust = await Customer.findById(req.user);
+
+    res.send(_.pick(cust, ['login', 'email', 'phone']));
+});
+
+// retrieves existing cart to client
+router.get('/cart', auth, async (req, res, next) => {
+    let order = await Order.findOne({ customer: req.user });
+    console.log(order);
     if (!order) return res.status(400).send('Bad request');
-    res.send(_.pick(order, ['book', status]));
+
+    let books = [];
+    for (i in order.books) {
+        books.push(await Book.findById(order.books[i]))
+    }
+
+    let resData = {
+        customer: order.customer,
+        books: books,
+        status: order.status
+    }
+    res.send(resData);
+
 });
 
 

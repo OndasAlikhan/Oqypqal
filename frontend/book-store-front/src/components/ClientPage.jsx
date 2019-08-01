@@ -10,7 +10,9 @@ class ClientPage extends Component {
     state = {
         listOfBooks: [],
         cartBooks: []
+
     };
+
 
     componentDidMount() {
         this.getListOfBooks();
@@ -27,9 +29,20 @@ class ClientPage extends Component {
     }
 
     handleAddToCart = (data) => {
-        let temp = this.state.cartBooks;
+        let temp = [...this.state.cartBooks];
+        console.log(data);
+
+        console.log(temp);
+
+        //search to find if the book already exists
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].id === data.id)
+                return;
+        }
+
+
         temp.push(data);
-        this.setState({ cartBooks: temp });
+        this.setState({ cartBooks: [...temp] });
     }
 
     handleDelete = (id) => {

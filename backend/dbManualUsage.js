@@ -17,8 +17,7 @@ const Order = mongoose.model('Order', new mongoose.Schema({
     },
     status: {
         type: String
-    },
-    date: String
+    }
 
 
 }));

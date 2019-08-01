@@ -18,7 +18,7 @@ const Order = mongoose.model('Order', new mongoose.Schema({
         ref: 'Customer',
         require: true
     },
-    book: {
+    books: {
         type: Array(mongoose.Schema.Types.ObjectId),
         ref: 'Book',
         require: true
@@ -31,8 +31,8 @@ const Order = mongoose.model('Order', new mongoose.Schema({
 
 
 // validation function. Uses Joi library
-// returns object that has object.value which is original data send for validation
-// and returns object.error 
+// returns object that has object.value which is original data sent for validation
+// and object.error 
 // if there's no error object.error === null
 function validateOrder(order) {
     Joi.validate({

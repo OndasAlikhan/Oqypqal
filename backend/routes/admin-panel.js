@@ -8,8 +8,7 @@ const bookModel = require('../models/bookModel');
 // are /admin-panel/* childs
 
 // MongoDB book entity(or model) created in bookModel.js
-const Book = mongoose.models.Book;
-
+const Book = bookModel.Book;
 // access MongoDB and retrieve a list of ALL books
 async function getListOfBooks() {
     let find = await Book.find();
@@ -43,21 +42,22 @@ async function deleteBook(data) {
 
 // function to perform changes to existing Book
 // ID is provided to find the book
-// all other fields of request are new data that has to be put into place of old
+// all other fields of the request are new data that has to be put into place of old
 async function editBook(data) {
-    let result = await Book.find({ _id: data.id }); //retrieving book by id
-
+    let result = await Book.findById(data.id); //retrieving book by id
+    console.log(result, 'book found');
     //changing its fields to new ones
-    result = result[0];
+
     result.name = data.name;
     result.author = data.author;
     result.price = data.price;
     result.releaseDate = data.releaseDate;
     result.genre = data.genre;
 
-    let result = await result.save();
+    //saving
+    let s = await result.save();
     console.log('saved');
-    return result;
+    return s;
 }
 
 //  handling http get request
@@ -104,9 +104,11 @@ router.post('/edit-book', (req, res) => {
         res.status(400);
         return;
     }
-    // console.log(req, ' req.data');
-    editBook(validationResult.value).then((result) => {
-        res.json(result);
+    console.log(req.body, ' req.body');
+    console.log(validationResult.value);
+
+    editBook(validationResult.value).then((r) => {
+        res.json(r);
     });
 });
 

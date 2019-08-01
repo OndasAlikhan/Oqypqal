@@ -14,11 +14,17 @@ class Header extends Component {
 
     state = {
         searchInput: '',
-        isAuth: false,
+        isAuth: this.props.isAuth,
         currentUserInfo: {}
     }
 
+    componentDidMount() {
+        this.getUserInfoRequest();
+    }
+
     renderLoginContainer = () => {
+        //initally user is not authorised 
+        //therefore the login input forms are rendered to the page 
         if (this.state.isAuth === false)
             return (
                 <div className="signButtonContainer">
@@ -34,11 +40,10 @@ class Header extends Component {
                         <Link id='linkToSignUp' to='/register'>SIGN UP</Link>
                     </div>
 
-                    {/* <a className="signButton" onClick={this.handleSignUp} href="#signup" ><Link to='/register'>SIGN UP</Link></a> */}
                 </div>
             );
 
-
+        //if user logged in his information is shown, instead of login inputs
         else if (this.state.isAuth === true)
             return (
                 <div className="loggedInfoContainer">
@@ -57,6 +62,20 @@ class Header extends Component {
         this.props.onSearchInput(event.target.value);
     }
 
+    getUserInfoRequest = () => {
+        let cookie = new Cookies();
+        if (cookie.get('jwt'))
+            axios.get('http://localhost:3001/me', { 'headers': { 'x-auth-token': cookie.get('jwt') } })
+                .then(res => {
+                    this.setState({ currentUserInfo: res.data })
+                    this.setState({ isAuth: true })
+                })
+
+                .catch(ex => console.log(ex));
+
+
+    }
+
     // handle user login by sending get request to server for checking 
     handleSignIn = () => {
 
@@ -65,6 +84,8 @@ class Header extends Component {
             login: this.logininp.current.value,
             password: this.passwordinp.current.value
         }
+
+
 
         console.log(reqData);
         axios.post('http://localhost:3001/login', reqData)  //sending request
@@ -76,6 +97,7 @@ class Header extends Component {
                 //we save login and password in state
                 this.setState({ currentUserInfo: res.data });
                 //passing response to onLogin prop
+                console.log(res.data);
                 this.props.onLogin();
                 //setting state isAuth to TRUE
                 this.setState({ isAuth: true });
@@ -91,6 +113,7 @@ class Header extends Component {
     }
 
     handleLogout = () => {
+        this.props.onLogout();
         this.setState({ isAuth: false });
         let cookies = new Cookies();
         cookies.remove('jwt');
@@ -100,10 +123,10 @@ class Header extends Component {
         return (
             <div className="header">
                 <div className='links'>
-                    <a href="#home" id="home">Oqypqal</a>
+                    <Link to="/" id="home">Oqypqal</Link>
                     <a href="#genres">Genres</a>
                     <a href="#authors">Authors</a>
-                    <a href="#myorder">My Order</a>
+                    <Link to='/my-order'>My Order</Link>
                 </div>
                 <div className='searchContainer'>
                     <p>Search</p>
