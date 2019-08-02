@@ -17,7 +17,6 @@ function renderAuth() {
         return <App isAuth={true} />
     else
         return <App isAuth={false} />
-
 }
 
 ReactDOM.render((

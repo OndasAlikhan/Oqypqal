@@ -1,13 +1,15 @@
 import React from 'react';
 import { Component } from 'react';
 import { Cookies } from 'react-cookie';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Header from './components/Header';
 import BookList from './components/BookList';
 import ClientPage from './components/ClientPage';
 import SignUpPage from './components/SignUpPage';
 import './App.css';
 import MyOrder from './components/MyOrder';
+import Authors from './components/Authors';
+
 class App extends Component {
 
   state = {
@@ -47,6 +49,7 @@ class App extends Component {
         <Route exact path='/' component={ClientPage} />
         <Route path='/register' component={SignUpPage} />
         <Route path='/my-order' component={MyOrder} />
+        <Route path='/authors' component={Authors} />
       </div>
     );
   }

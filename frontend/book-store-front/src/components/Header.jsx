@@ -125,7 +125,7 @@ class Header extends Component {
                 <div className='links'>
                     <Link to="/" id="home">Oqypqal</Link>
                     <a href="#genres">Genres</a>
-                    <a href="#authors">Authors</a>
+                    <Link to="/authors">Authors</Link>
                     <Link to='/my-order'>My Order</Link>
                 </div>
                 <div className='searchContainer'>

@@ -16,7 +16,8 @@ const Order = mongoose.model('Order', new mongoose.Schema({
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
-        require: true
+        require: true,
+        unique: true
     },
     books: {
         type: Array(mongoose.Schema.Types.ObjectId),
@@ -36,7 +37,7 @@ const Order = mongoose.model('Order', new mongoose.Schema({
 // if there's no error object.error === null
 function validateOrder(order) {
     Joi.validate({
-        customer: Joi.objectId().required(),
+        customer: Joi.objectId().required().unique(),
         book: Joi.objectId(),
         status: Joi.string().required()
     });

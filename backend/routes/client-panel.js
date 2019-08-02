@@ -57,8 +57,11 @@ router.get('/cart', auth, async (req, res, next) => {
 
     let books = [];
     for (i in order.books) {
-        books.push(await Book.findById(order.books[i]))
+        if (/[0-9]/.test(i)) {
+            books.push(await Book.findById(order.books[i]))
+        }
     }
+    console.log(books, 'books');
 
     let resData = {
         customer: order.customer,
@@ -69,7 +72,13 @@ router.get('/cart', auth, async (req, res, next) => {
 
 });
 
+router.get('/authors', async (req, res) => {
+    let authors = await Book.find()
+        .select('author');
 
+    res.send(authors);
+    console.log('THESE ARE AUTHOSRS', authors);
+});
 
 //handle user's request to log in
 router.post('/login', async (req, res) => {
