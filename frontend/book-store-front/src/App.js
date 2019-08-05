@@ -9,6 +9,8 @@ import SignUpPage from './components/SignUpPage';
 import './App.css';
 import MyOrder from './components/MyOrder';
 import Authors from './components/Authors';
+import Main from './components/Main';
+import Genres from './components/Genres';
 
 class App extends Component {
 
@@ -45,11 +47,14 @@ class App extends Component {
           onLogin={this.handleLogin}
           onLogout={this.handleLogout}
         />
+        <Route exact path='/' component={Main}></Route>
         <Route exact path='/admin-panel' component={BookList} />
-        <Route exact path='/' component={ClientPage} />
+        <Route path='/books' component={ClientPage} />
         <Route path='/register' component={SignUpPage} />
-        <Route path='/my-order' component={MyOrder} />
+        <Route path='/my-order' render={() => <MyOrder isAuth={this.props.isAuth} />} />
+
         <Route path='/authors' component={Authors} />
+        <Route path='/genres' component={Genres} />
       </div>
     );
   }

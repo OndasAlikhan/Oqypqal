@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Redirect } from 'react-router-dom';
 class Authors extends Component {
 
     componentDidMount() {
@@ -8,9 +8,20 @@ class Authors extends Component {
     }
 
     state = {
-        authorsList: []
+        authorsList: [],
+        redirect: false,
+        authorToSearch: ''
     }
 
+    handleRedirect = () => {
+        if (this.state.redirect)
+            return <Redirect to={`/books/?author=${this.state.authorToSearch}`} />
+    }
+
+    handleAuthorClick = (data) => {
+        this.setState({ authorToSearch: data });
+        this.setState({ redirect: true });
+    }
     getListOfAuthors = () => {
         console.log('aha')
         axios.get('http://localhost:3001/authors')
@@ -23,10 +34,11 @@ class Authors extends Component {
 
     render() {
         return (<div>
+            {this.handleRedirect()}
             {
                 this.state.authorsList.map(c => {
                     return (
-                        <span>{c.author}<br /></span>
+                        <a onClick={() => this.handleAuthorClick(c.author)} key={c.id}>{c.author}<br /></a>
                     )
                 })
             }

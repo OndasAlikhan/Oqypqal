@@ -9,6 +9,10 @@ class Cart extends Component {
         listOfBooks: this.props.listOfBooks
     };
 
+    componentDidMount() {
+        console.log(this.props.listOfBooks);
+    }
+
     handleSaveOrder = () => {
         console.log(this.state.listOfBooks);
         let reqData = {

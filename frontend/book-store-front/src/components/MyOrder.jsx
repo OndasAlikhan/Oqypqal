@@ -11,8 +11,10 @@ class MyOrder extends Component {
     componentDidMount() {
         this.getMyOrder();
     }
-    componentDidUpdate() {
-
+    componentDidUpdate(prevProps) {
+        if (this.props.isAuth !== prevProps.isAuth) {
+            this.getMyOrder();
+        }
     }
 
     getMyOrder = () => {
@@ -44,7 +46,7 @@ class MyOrder extends Component {
                     <div>
                         {c.name}<br />
                         {c.author}<br />
-                        <br />
+                        {c.genre}<br />
                         {c.price}<br />
                     </div>
                 )
@@ -55,13 +57,12 @@ class MyOrder extends Component {
     render() {
         return (
             <div>
-                ye
                 {this.state.books.map(c => {
-                    return <div>
-                        {c.name} <br />
-                        {c.author} <br />
-                        {c.genre}<br />
-                        {c.price} <br /><br />
+                    return <div >
+                        {c.name} < br />
+                        {c.author} < br />
+                        {c.genre} < br />
+                        {c.price} < br /> <br />
                     </div>
                 })}
             </div>

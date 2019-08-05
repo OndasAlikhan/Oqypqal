@@ -12,15 +12,16 @@ const Customer = mongoose.models.Customer;
 const Order = mongoose.models.Order;
 
 //function to perform when get request is received
-async function getListOfBooks() {
-    let find = await Book.find();
+async function getListOfBooks(query) {
+    console.log(query);
+    let find = await Book.find(query);
     console.log(find);
     return (find);
 }
 
 // handle http get request, to retrieve all books from MongoDB and send to client
 router.get('/', (req, res, next) => {
-    getListOfBooks()
+    getListOfBooks(req.query)
         .then(result => {
             console.log('Sending data to client');
             res.json({ arrayOfBooks: result });
@@ -77,7 +78,14 @@ router.get('/authors', async (req, res) => {
         .select('author');
 
     res.send(authors);
-    console.log('THESE ARE AUTHOSRS', authors);
+    console.log('THESE ARE AUTHORS', authors);
+});
+
+router.get('/genres', async (req, res) => {
+    let genres = await Book.find()
+        .select('genre');
+    res.send(genres);
+    console.log('genres sent', genres);
 });
 
 //handle user's request to log in

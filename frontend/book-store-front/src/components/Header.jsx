@@ -34,7 +34,7 @@ class Header extends Component {
                     </div>
 
                     <div className="signButton">
-                        <a onClick={this.handleSignIn} >SIGN IN</a>
+                        <a onClick={this.handleLogin} >SIGN IN</a>
                     </div>
                     <div className='signButton'>
                         <Link id='linkToSignUp' to='/register'>SIGN UP</Link>
@@ -48,8 +48,6 @@ class Header extends Component {
             return (
                 <div className="loggedInfoContainer">
                     <span className="loggedUserInfo">{this.state.currentUserInfo.login}</span><br />
-                    <span className="loggedUserInfo">{this.state.currentUserInfo.email}</span><br />
-                    <span className="loggedUserInfo">{this.state.currentUserInfo.phone}</span><br />
                     <a href='#' onClick={this.handleLogout}>Logout</a>
                 </div>
             );
@@ -77,7 +75,7 @@ class Header extends Component {
     }
 
     // handle user login by sending get request to server for checking 
-    handleSignIn = () => {
+    handleLogin = () => {
 
         //request data that contains user info and password 
         let reqData = {
@@ -124,7 +122,8 @@ class Header extends Component {
             <div className="header">
                 <div className='links'>
                     <Link to="/" id="home">Oqypqal</Link>
-                    <a href="#genres">Genres</a>
+                    <Link to="/books">Books</Link>
+                    <Link to='/genres'>Genres</Link>
                     <Link to="/authors">Authors</Link>
                     <Link to='/my-order'>My Order</Link>
                 </div>
