@@ -1,0 +1,6 @@
+.admin-panel{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "create-book-form book-list customer-list"
+}

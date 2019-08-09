@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './BookList.css';
 import axios from 'axios';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
 class Book extends Component {
     constructor(props) {
         super(props);
@@ -61,7 +62,7 @@ class Book extends Component {
 
         console.log(reqData, 'data of edit request');
         console.log(typeof (this.props.id), 'id of send edit req');
-        axios.post('http://localhost:3001/admin-panel/edit-book', reqData)
+        axios.post(endpoint.concat('/admin-panel/edit-book'), reqData)
             .then((result) => {
                 console.log(result, 'response came from edit request');
                 this.props.onEdit();

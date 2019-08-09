@@ -4,7 +4,7 @@
     grid-template-rows: 2fr;
     grid-template-areas: 
         "links search account";
-    background-color: #333;  
+    background-color: #0A2342;  
 
     padding: 5px;
 }
@@ -37,16 +37,13 @@
 .signButtonContainer{
     display: grid;
     grid-gap: 1px;
-    grid-template-rows: 4vw 1fr;
+    grid-template-rows: 4vw ;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 
-    "login login"
     "signin signup"
 }
 
-.loginContainer{
-    grid-area: login;
-}
+
 .loggedUserInfo{
     color:white;
 }

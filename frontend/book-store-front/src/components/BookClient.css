@@ -1,11 +1,13 @@
 .bookElementClient{
-    border: 2px solid black;
-    margin-top: 30px;
+    border: 1px solid black;
+    border-radius: 1px;
+    margin: 30px 1px 1px 1px;
     position: relative;
     float: left;
     width: 250px;
     padding: 15px;
     overflow: hidden;
+    
 }
 
 .text{
@@ -28,7 +30,7 @@
 }
 
 .bookClientButton{
-    background-color: #4CAF50;
+    background-color: #74B3CE;
     color: white;
     
     position: absolute;

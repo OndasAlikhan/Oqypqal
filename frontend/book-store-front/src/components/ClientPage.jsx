@@ -5,6 +5,7 @@ import BookClient from './BookClient';
 import './ClientPage.css';
 import Cart from './Cart';
 import { Cookies } from 'react-cookie';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
 
 
 class ClientPage extends Component {
@@ -27,7 +28,8 @@ class ClientPage extends Component {
 
     //send request to server get list of books and set them to state
     getListOfBooks = () => {
-        axios.get(`http://localhost:3001/${this.props.location.search}`)
+        let uri = endpoint;
+        axios.get(uri.concat(`${this.props.location.search}`))
             .then((res) => {
                 console.log('Req sent, response came');
                 this.setState({ listOfBooks: res.data.arrayOfBooks });
@@ -42,7 +44,7 @@ class ClientPage extends Component {
             let headers = {
                 'x-auth-token': cookie.get('jwt')
             }
-            axios.get('http://localhost:3001/cart', { 'headers': headers })
+            axios.get(`${endpoint}/cart`, { 'headers': headers })
                 .then(res => {
                     this.setState({ cartBooks: res.data.books })
                     console.log(res.data);
@@ -84,8 +86,8 @@ class ClientPage extends Component {
 
     render() {
         return (
-            <div >
-                <div className='clientPageContainer'>
+            <div className="clientPageContainer" >
+                <div className='clientPageBooksContainer'>
                     {this.state.listOfBooks.map(i => {
                         return (
                             <BookClient

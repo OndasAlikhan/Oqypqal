@@ -1,13 +1,12 @@
 .signUpContainer{
-    display: inline-block;
-    background: #333 ;
-    color: white;
-    width: 300px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
-
+.signUpForm{
+    margin: 10px;
+    max-width: 300px;
+    flex-grow: 1;
+}
 .submitButtonSignUp{
-    margin-left:38%;
-    margin-top:10px;
-    margin-bottom: 10px;
-    cursor: pointer;
 }

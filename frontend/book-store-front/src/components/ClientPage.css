@@ -1,6 +1,15 @@
-.clientPageContainer{
+.clientPageBooksContainer{
+    display: flex;
+    flex-wrap: wrap;
     position: relative;
-    margin-left: 60px;
+    flex-grow: 1;
     float: left;
     width: 1000px;
+}
+
+.clientPageContainer{
+    display: flex; 
+    justify-content: space-evenly;
+    margin: 0px 2vw; 
+      
 }

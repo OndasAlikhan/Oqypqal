@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import _ from 'lodash';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
+
 class MyOrder extends Component {
     state = {
         orderInfo: {},
@@ -23,7 +25,7 @@ class MyOrder extends Component {
         let headers = {
             'x-auth-token': cookies.get('jwt')
         }
-        axios.get('http://localhost:3001/cart', { 'headers': headers })
+        axios.get(endpoint.concat('/cart'), { 'headers': headers })
 
             .then(res => {
                 this.setState({ orderInfo: _.pick(res.data, ['customer', 'status']) });

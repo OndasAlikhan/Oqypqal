@@ -4,6 +4,8 @@ import CartElement from './CartElement';
 import axios from 'axios';
 import _ from 'lodash';
 import { Cookies } from 'react-cookie';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
+
 class Cart extends Component {
     state = {
         listOfBooks: this.props.listOfBooks
@@ -30,7 +32,7 @@ class Cart extends Component {
 
         console.log(jwtCookie, 'my jwt token');
 
-        axios.post('http://localhost:3001/cart', reqData, { "headers": headers })
+        axios.post(endpoint.concat('/cart'), reqData, { "headers": headers })
             .then(res => {
                 console.log(res);
             })

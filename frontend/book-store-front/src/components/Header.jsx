@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { Cookies } from 'react-cookie';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
 
 class Header extends Component {
 
@@ -20,6 +21,17 @@ class Header extends Component {
 
     componentDidMount() {
         this.getUserInfoRequest();
+
+        console.log('right is Auth in header is ', this.state.isAuth);
+    }
+    componentDidUpdate(prevProps) {
+        console.log('calling that');
+        console.log('isAuth state', this.state.isAuth);
+        console.log('isAuth prpos', this.props.isAuth);
+
+        if (this.props.isAuth)
+            if (this.props.isAuth !== prevProps.isAuth)
+                this.setState({ isAuth: true });
     }
 
     renderLoginContainer = () => {
@@ -28,13 +40,8 @@ class Header extends Component {
         if (this.state.isAuth === false)
             return (
                 <div className="signButtonContainer">
-                    <div className="loginContainer">
-                        <input className="logininp" ref={this.logininp} ></input>
-                        <input className="logininp" ref={this.passwordinp} ></input>
-                    </div>
-
                     <div className="signButton">
-                        <a onClick={this.handleLogin} >SIGN IN</a>
+                        <Link to="/login" >SIGN IN</Link>
                     </div>
                     <div className='signButton'>
                         <Link id='linkToSignUp' to='/register'>SIGN UP</Link>
@@ -63,7 +70,7 @@ class Header extends Component {
     getUserInfoRequest = () => {
         let cookie = new Cookies();
         if (cookie.get('jwt'))
-            axios.get('http://localhost:3001/me', { 'headers': { 'x-auth-token': cookie.get('jwt') } })
+            axios.get(endpoint.concat('/me'), { 'headers': { 'x-auth-token': cookie.get('jwt') } })
                 .then(res => {
                     this.setState({ currentUserInfo: res.data })
                     this.setState({ isAuth: true })
@@ -72,42 +79,6 @@ class Header extends Component {
                 .catch(ex => console.log(ex));
 
 
-    }
-
-    // handle user login by sending get request to server for checking 
-    handleLogin = () => {
-
-        //request data that contains user info and password 
-        let reqData = {
-            login: this.logininp.current.value,
-            password: this.passwordinp.current.value
-        }
-
-
-
-        console.log(reqData);
-        axios.post('http://localhost:3001/login', reqData)  //sending request
-            .then(res => {
-
-                console.log(res, 'response from login');
-
-                //since the req for login was successful
-                //we save login and password in state
-                this.setState({ currentUserInfo: res.data });
-                //passing response to onLogin prop
-                console.log(res.data);
-                this.props.onLogin();
-                //setting state isAuth to TRUE
-                this.setState({ isAuth: true });
-
-                //also setting cookies 
-                let cookies = new Cookies();
-                cookies.set('jwt', res.headers['x-auth-token']);
-                console.log(cookies.getAll());
-            })
-            .catch(err => {
-                console.log(err);
-            });
     }
 
     handleLogout = () => {
@@ -119,7 +90,7 @@ class Header extends Component {
 
     render() {
         return (
-            <div className="header">
+            < div className="header" >
                 <div className='links'>
                     <Link to="/" id="home">Oqypqal</Link>
                     <Link to="/books">Books</Link>
@@ -135,7 +106,7 @@ class Header extends Component {
                     </div>
                 </div>
                 {this.renderLoginContainer()}
-            </div>
+            </div >
         );
     }
 }

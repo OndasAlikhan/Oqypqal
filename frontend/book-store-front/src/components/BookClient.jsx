@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './BookClient.css';
-import axios from 'axios';
+
 class BookClient extends Component {
     handleAddToCart = () => {
         let temp = {

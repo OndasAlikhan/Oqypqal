@@ -14,7 +14,7 @@ let jwtCookie = cookie.get('jwt');
 function renderAuth() {
     console.log(jwtCookie, 'cookies')
     if (jwtCookie)
-        return <App isAuth={true} />
+        return <App className='App' isAuth={true} />
     else
         return <App isAuth={false} />
 }

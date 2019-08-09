@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'https://foo.api.net/';
+
 class Genres extends Component {
     componentDidMount() {
         this.getListOfGenres();
@@ -18,7 +20,7 @@ class Genres extends Component {
     }
 
     getListOfGenres = () => {
-        axios.get('http://localhost:3001/genres')
+        axios.get(endpoint.concat('/genres'))
             .then(res => this.setState({ genresList: res.data }));
     }
 

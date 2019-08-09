@@ -2,6 +2,8 @@
     float:right;
     margin: 30px 60px;
     width: 300px;
+    flex-grow: 0;
+    border: red 1px solid;
 }
 
 .cartElement{

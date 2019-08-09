@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+const endpoint = process.env.REACT_APP_SERVICE_URI ? process.env.REACT_APP_SERVICE_URI : 'http://localhost:3001/'
 class Authors extends Component {
 
     componentDidMount() {
@@ -24,7 +25,7 @@ class Authors extends Component {
     }
     getListOfAuthors = () => {
         console.log('aha')
-        axios.get('http://localhost:3001/authors')
+        axios.get(endpoint.concat('/authors'))
             .then(res => {
                 console.log(res.data, 'data');
                 this.setState({ authorsList: res.data })
