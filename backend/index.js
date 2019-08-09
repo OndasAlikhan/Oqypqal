@@ -13,7 +13,7 @@ if (!config.get('jwtPrivateKey')) {
     process.exit(1);
 }
 
-mongoose.connect("mongodb://localhost/oqypqal", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://alihan:09OqhC3Pwmb9Waca@cluster0-rgdgd.mongodb.net/oqypqal?retryWrites=true&w=majority", { useNewUrlParser: true })
     .then(() => console.log('Connected to db'))
     .catch((err) => console.log('Error', err));
 
@@ -31,6 +31,6 @@ app.use('/', clientpanel);
 app.use('/register', register);
 app.use(error);
 
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log('Listenging on port', port));
 

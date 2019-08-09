@@ -64,7 +64,10 @@ async function editBook(data) {
 // sending an array of books exctracted from db
 router.get("/", (req, res) => {
     getListOfBooks()
-        .then((result) => res.json({ arrayOfBooks: result }));
+        .then((result) => {
+            console.log(result);
+            res.json({ arrayOfBooks: result })
+        });
     dbDebug('The full list of books has been sent to client');
 });
 
